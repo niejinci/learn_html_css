@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑故障记录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>编辑故障记录 #{{ fault.id }}</h1>
+
+    <!-- 显示只读信息 -->
+    <div class="readonly-info">
+        <p><strong>发现人员:</strong> {{ fault.reporter_name }}</p>
+        <p><strong>故障时间:</strong> {{ fault.fault_time }}</p>
+        <p><strong>车辆信息:</strong> {{ fault.vehicle_id }}</p>
+        <p><strong>错误类别:</strong> {{ fault.category }}</p>
+        <p><strong>报警描述:</strong> {{ fault.description }}</p>
+    </div>
+
+    <hr>
+
+    <!-- 编辑表单 -->
+    <form method="post">
+        <label>解决状态:
+            <select name="status">
+                {% for s in statuses %}
+                <option value="{{ s }}" {% if s == fault.status %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>处理记录:
+            <textarea name="resolution_log" rows="6">{{ fault.resolution_log or '' }}</textarea>
+        </label>
+
+        <button type="submit">更新记录</button>
+    </form>
+
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">返回首页</a>
+    </div>
+</body>
+</html>
